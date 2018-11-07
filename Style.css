@@ -49,7 +49,7 @@ body {
     /*A blue div that covers the full widith of the page*/
     background-color: LightSteelBlue;
     width: 100%;
-    margin: 0px 0px 0px -9px;
+    margin: 0px 0px 0px 0px;
     padding: 2px 9px 0px 0px;
     color: MidnightBlue;
     text-align: center;
