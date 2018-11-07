@@ -1,0 +1,71 @@
+body {
+    /*Background color for entire page*/
+  background-color: LavenderBlush;
+  font-family: "Helvetica Neue", Courier, monospace;
+  }
+  
+  h3 {
+    text-align: center;
+  }
+  
+  .topdiv {
+    /*Styling the top "header" for my page*/
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: RoyalBlue;
+    border-width: 1px;
+    padding-left: 5px;
+    text-align: center;
+  }
+  .subtitle {
+    /*Making subtitle font a little bigger*/
+    /*Also using em instead of px for font sizes for more consistent experience for both desktop and mobile devices*/
+    font-size: 1.4em;
+  }
+  .firstimgs {
+    /*Styling the top imges for my page*/
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom-style: solid;
+    border-color: RoyalBlue;
+    border-width: 1px;
+    padding-left: 5px;
+  }
+  .cleardiv {
+    text-align: center;
+  }
+  .boxdiv{
+    /*A blue box with rounded corners div*/
+      background-color: Lavender;
+    border: solid;
+    border-width: 1px;
+    border-color: CornflowerBlue;
+    margin: 0px 2px 15px 2px;
+    padding: 0px 17px 5px 17px;
+    border-radius: 25px;
+  }
+  .tablediv {
+    /*A blue div that covers the full widith of the page*/
+    background-color: LightSteelBlue;
+    width: 100%;
+    margin: 0px 0px 0px -9px;
+    padding: 2px 9px 0px 0px;
+    color: MidnightBlue;
+    text-align: center;
+    padding-bottom: 10px;
+    align-items: center;
+  }
+  .tabledivq {
+    /*A blue div that covers the full widith of the page*/
+    background-color: #3F3FBFd;
+    width: 100%;
+    margin: 0px 0px 0px -9px;
+    padding: 2px 9px 0px 0px;
+    padding-bottom: 10px;
+  }
+  table {
+    /*puts table in the center of the page*/
+    margin: auto;
+    /*border:5px solid red;*/
+  }
