@@ -1,4 +1,4 @@
-// write your code here: http://www.dukelearntoprogram.com/course1/example/index.
+// write your code here: http://www.dukelearntoprogram.com/course1/example/index.php
 
 //The green screen algorithm
 var fgImage = new SimpleImage("drewRobert.png");
