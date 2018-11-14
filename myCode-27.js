@@ -1,4 +1,4 @@
-// write your code here
+// write your code here: http://www.dukelearntoprogram.com/course1/example/index.php
 //The green screen algorithm
 var fgImage = new SimpleImage("drewRobert.png");
 var bgImage = new SimpleImage("dinos.png");
@@ -47,7 +47,6 @@ for ( var pixel of image.values()) {
 print(image);
 
 // A function named setBlack that has one parameter pixel (representing a single pixel) and returns pixel with its red, green, and blue components changed so that the pixel’s color is black.
-
 function setBlack(name)
 {
 var image = new SimpleImage(name);
@@ -59,7 +58,6 @@ for ( var pixel of image.values()) {
 print(image);
 }
 setBlack("usain.jpg");
-
 
 // Adding a black border to an image
 var img = new SimpleImage("hilton.jpg");
@@ -93,9 +91,6 @@ for ( var pixel of image.values())
 print(image);
 }
 addBorder ("rodger.png", 20)
-
-
-
 
 
 var x = 3;
@@ -156,6 +151,7 @@ function square(x){
 	var ans = x*x;
 	return ans;
 }
+
 
 function cube(x){
 	var anscube = x*x*x;
