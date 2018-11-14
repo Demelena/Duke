@@ -1,4 +1,5 @@
-// write your code here: http://www.dukelearntoprogram.com/course1/example/index.php
+// write your code here: http://www.dukelearntoprogram.com/course1/example/index.
+
 //The green screen algorithm
 var fgImage = new SimpleImage("drewRobert.png");
 var bgImage = new SimpleImage("dinos.png");
@@ -46,8 +47,8 @@ for ( var pixel of image.values()) {
     }
 print(image);
 
-// A function named setBlack that has one parameter pixel (representing a single pixel) and returns pixel with its red, green, and blue components changed so that the pixel’s color is black.
-function setBlack(name)
+// A function named setBlack2 that has one parameter image (representing a single image) and returns all pixerls of the image with its red, green, and blue components changed so that the image’s color is black.
+function setBlack2(name)
 {
 var image = new SimpleImage(name);
 for ( var pixel of image.values()) {
@@ -57,7 +58,31 @@ for ( var pixel of image.values()) {
     }
 print(image);
 }
-setBlack("usain.jpg");
+setBlack2("usain.jpg");
+
+//A function to change a single pixel to black
+function setBlack(pixel){
+    pixel.setRed(0);
+    pixel.setGreen(0);
+    pixel.setBlue(0);
+    return false;
+}
+
+// A function named addBorder2. This function will add a black border to an image (using setBlack function)
+function addBorder2 (imageWithBorder, thicknessOfBorder){
+var image = new SimpleImage(imageWithBorder);
+for ( var pixel of image.values())
+{
+  var x = pixel.getX();
+  var y = pixel.getY();
+    if (x <= thicknessOfBorder || y<= thicknessOfBorder || x >= image.getWidth() - thicknessOfBorder || y>= image.getHeight() - thicknessOfBorder)
+    {
+        setBlack(pixel)
+    }
+}
+print(image);
+}
+addBorder2 ("rodger.png", 20)
 
 // Adding a black border to an image
 var img = new SimpleImage("hilton.jpg");
@@ -208,4 +233,3 @@ for ( var pixel of image.values()) {
     }
 }
 print(image);
-
