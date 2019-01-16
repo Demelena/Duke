@@ -1,0 +1,65 @@
+/**
+ * Object Oriented Caesar Cipher
+ * Assignment 1: One Key
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+ import edu.duke.*;
+
+public class TestCaesarCipher {
+   String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ 
+   public int[] countLetters (String message) {
+        int[] counts = new int[26];
+        for (char a : message.toCharArray()) {
+            char b = Character.toUpperCase(a);
+            if (Character.isAlphabetic(b)) counts[ALPHABET.indexOf(b)]++;
+        }   
+        return counts;
+     }
+    
+      public int maxIndex(int [] values) {
+        int maxvalue = 0;
+        int positionoflargestelement = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (maxvalue == 0) maxvalue = values[i];
+            else {
+                if (maxvalue < values[i]) {
+                    maxvalue = values[i];
+                    positionoflargestelement = i;
+                }
+            }
+        }
+        return positionoflargestelement;
+    }
+    
+    public void simpleTests (){
+        FileResource resource = new FileResource();
+        String s = resource.asString();
+        CaesarCipher c = new CaesarCipher(18);
+        String a = c.encrypt(s);
+        System.out.println(a);
+        
+        String b = c.decrypt(a);
+        System.out.println(b);
+        String x = breakCaesarCipher(a);
+        System.out.println(x);
+    }
+    
+    public String breakCaesarCipher (String input) {
+        int key = getKey(input);
+        CaesarCipher c = new CaesarCipher(key);
+        return c.decrypt(input);
+    }
+    
+    public int getKey(String s) {
+        int[] counts = countLetters(s);
+        int indOfMax = maxIndex(counts);
+        int key = indOfMax - 4;
+        if (key<0) return key+26;
+        else return key;
+    }
+}
