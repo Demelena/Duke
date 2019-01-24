@@ -1,0 +1,67 @@
+/**
+ * Week 2 GladLibs: Stories from Templates
+ * Telling a Random Story
+ * Assignment 2: Character Names
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+import edu.duke.*;
+import java.util.ArrayList;
+
+public class CharactersInPlay {
+    private ArrayList<String> NamesOfCharacters;
+    private ArrayList<Integer> CountsForEachCharacters;
+    
+    public CharactersInPlay() {
+        NamesOfCharacters = new ArrayList<String>();
+        CountsForEachCharacters = new ArrayList<Integer>();
+    }
+    
+    public void update(String person){
+        int index = NamesOfCharacters.indexOf(person);
+        if (index == -1){
+            NamesOfCharacters.add(person);
+            CountsForEachCharacters.add(1);
+        }
+        else {
+            int counts = CountsForEachCharacters.get(index);
+            CountsForEachCharacters.set(index,counts+1);
+        }
+    }
+    
+    public void findAllCharacters() {
+    FileResource resource = new FileResource();
+        for(String line : resource.lines()){
+            line = line.toUpperCase();
+            int i = line.indexOf(".");
+            if (i != -1)
+            {
+                String Character = line.substring(0,i);
+                update(Character);
+            }
+        }
+    }
+    
+    public void tester(){
+        findAllCharacters();
+        for (int k = 0; k < NamesOfCharacters.size(); k++){ 
+            if (CountsForEachCharacters.get(k)>1)
+                System.out.println(NamesOfCharacters.get(k)+" "+CountsForEachCharacters.get(k));
+        }
+        System.out.println(" ");
+        System.out.println(" ");
+        charactersWithNumParts(10,15);
+    }
+    
+    public void charactersWithNumParts(int num1, int num2) {
+        
+        for (int k = 0; k < NamesOfCharacters.size(); k++){ 
+            int t = CountsForEachCharacters.get(k);
+            if (t >= num1 && t <= num2)
+                System.out.println(t+" "+NamesOfCharacters.get(k));
+        }
+    }
+}
