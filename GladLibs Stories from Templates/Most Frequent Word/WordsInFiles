@@ -1,0 +1,107 @@
+/**
+ * Week 2 GladLibs: Stories from Templates
+ * Using and Improving GladLibs
+ * Assignment 2: Words in Files
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+import edu.duke.*;
+import java.util.*;
+import java.io.File;
+
+public class WordsInFiles {
+
+   HashMap<String,ArrayList<String>> map;
+   
+    public WordsInFiles()
+    {
+        map = new HashMap<String,ArrayList<String>>();
+    } 
+    
+    private void addWordsFromFile(File f){
+        
+        FileResource fr = new FileResource(f);
+        String fname = f.getName();
+        for(String word : fr.words())
+        {
+            if (map.containsKey(word))
+            {
+                ArrayList<String> a = map.get(word);
+                if (!a.contains(fname))
+                {
+                    a.add(fname);
+                    map.put(word, a);
+                }
+            } else {
+                ArrayList<String> a = new ArrayList<String>();
+                a.add(fname);
+                map.put(word, a);
+            }
+        }
+    }
+    
+    public void buildWordFileMap(){
+       map.clear();
+       DirectoryResource dr = new DirectoryResource ();
+       for(File f : dr.selectedFiles())
+       {
+        addWordsFromFile(f);
+       }
+    }
+    
+    public int maxNumber(){
+      int maxNumber = 0;
+        for (String s : map.keySet()){
+            int count = map.get(s).size();
+             if (count > maxNumber){
+                maxNumber = count;
+            }
+        }
+        return maxNumber;  
+     }
+     
+    public ArrayList<String> wordsInNumFiles(int number){
+        ArrayList<String> a = new ArrayList<String>();
+        for (String s : map.keySet()){
+            int count = map.get(s).size();
+             if (count == number){
+                a.add(s);
+            }
+        }
+        return a;
+     }
+     
+    public void printFilesIn(String word){
+        ArrayList<String> files = map.get(word);
+        for (String filename : files) {
+            System.out.println(filename);
+        }
+     }
+     
+    public void tester(){
+      buildWordFileMap();
+      System.out.println("----------");
+      int m = maxNumber();
+      System.out.println(m);
+      ArrayList<String> words = wordsInNumFiles(m);
+      System.out.println(words.size());
+      for(String w : words)
+      {
+         System.out.println("\"" + w + "\" appears in the files:");
+         printFilesIn(w);
+      }
+      
+      System.out.println("----------");
+      ArrayList<String> ss = map.get("tree");
+      for(String w : ss)
+      {
+         System.out.println(w);
+      }
+      
+      ArrayList<String> words2 = wordsInNumFiles(4);
+      System.out.println(words2.size());
+     }
+    }
