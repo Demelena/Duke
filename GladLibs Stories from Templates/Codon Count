@@ -1,0 +1,104 @@
+/**
+ * Week 2 GladLibs: Stories from Templates
+ * Using and Improving GladLibs
+ * Assignment 1: Codon Count
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+import edu.duke.*;
+import java.util.*;
+
+public class CodonCount {
+    HashMap<String,Integer> map;
+    
+    public CodonCount() {
+        map = new HashMap<String,Integer>();
+    }
+    
+    public void buildCodonMap (int start, String dna){
+       map.clear();
+       while(start+2<dna.length())
+       {
+           String c = dna.substring(start, start+3);
+           if (Character.isLetter(c.charAt(0)) &&
+            Character.isLetter(c.charAt(1)) &&
+            Character.isLetter(c.charAt(2)))
+            {
+               if (!map.containsKey(c))
+                    map.put(c, 1);
+               else
+               {
+                   int r = map.get(c);
+                   map.put(c, r+1);
+                }
+                
+               start += 3;
+            }
+            else
+            {
+                break;
+            }
+       }      
+    }
+    
+    public String getMostCommonCodon() {
+       
+        int max = 0;
+        String ss = "";
+        for (String s : map.keySet()){
+            int count = map.get(s);
+             if (count > max){
+                max = count;
+                ss = s;
+            }
+        }
+
+        return ss;  
+    }
+    
+    public void printCodonCounts (int start, int end){
+        
+        System.out.println("Counts of codons between "
+            +start+" and "+end+" inclusive are:");
+            
+        for (String s : map.keySet()){
+            int count = map.get(s);
+           if (count>=start && count<=end)
+                System.out.println(count+"\t"+s);
+       }
+       System.out.println();
+    }
+    
+    public void tester() {
+      //String s = "ATTAATACTTTGTTTAACAGTAATTATTCAACTATTAAATATTTAAATAATTAAGTTATTAAACTATTAAGTACAGGGCCTGTATCTCTGATGCTGAACTATGATGTGTGACTTAAGCCCCCAAATACATCATGTTATTTGGATCCAAGGTGCTGCACAGAACGCTGACCCTCTCTAAGAGCTGGGTATTACT";
+      String s = "CAACCTTTAAAAGGAAGAAATCGCAGCAGCCCAGAACCAACTGCATAACATACAACCTTTAAAAGGAAGAAATCGCAGCAGCCCAGAACCAACTGCATAACATACAACCTTTAAAAGGAAGAAATCGCACCAGCCCAGAATCAACTGCATAACATACAAACTTTAAAAGGAAGAAATCTAACATACAACCTTTAAAAGGAAGAAATCGCACCAGCCCAGAATCAACTGCATAACATACAAACTTTAAAAGGAAGAAATCCAACCTTTAAAAGGAAGAAATCGCAGCAGCCCAGAACCAACTGCATAACATACAACCTTTAAAAGGAAGAAATCGCAGCAGCCCAGAACCAACTGCATAACATACAACCTTTAAAAGGAAGAAATCGCACCAGCCCAGAATCAACTGCATAACATACAAACTTTAAAAGGAAGAAATC";
+      s = s.toUpperCase();
+      int n = 0;
+      
+      buildCodonMap (n, s);
+      String ss = getMostCommonCodon();
+      int rr = map.get(ss);
+      System.out.println("Reading frame starting with "+ n + " results in "+ map.size() +" unique codons");
+      System.out.println("and most common codon is " + ss +" with count " + rr);
+      printCodonCounts (7, 7);
+     
+      n = 1;
+      buildCodonMap (n, s);
+      ss = getMostCommonCodon();
+      rr = map.get(ss);
+      System.out.println("Reading frame starting with "+ n + " results in "+ map.size() +" unique codons");
+      System.out.println("and most common codon is " + ss +" with count " + rr);
+      printCodonCounts (1, 2);
+      
+      n = 2;
+      buildCodonMap (n, s);
+      ss = getMostCommonCodon();
+      rr = map.get(ss);
+      System.out.println("Reading frame starting with "+ n + " results in "+ map.size() +" unique codons");
+      System.out.println("and most common codon is " + ss +" with count " + rr);
+      printCodonCounts (4, 4);
+    }
+}
