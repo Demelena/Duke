@@ -1,0 +1,72 @@
+/**
+ * Week 3 Web Server Logs: From Logs to Visits
+ * Web Server Logs Quiz, 10 questions
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+
+import java.util.*;
+
+public class Quiz
+{
+    public void test4UniqIP() {
+       LogAnalyzer la = new LogAnalyzer();
+       la.readFile("weblog2_log");
+       int uniqueIPs = la.countUniqueIPs();
+       System.out.println("There are " + uniqueIPs + " IPs");
+    }
+    
+    public void test5UniqueIPVisitsOnDay() {
+        LogAnalyzer x = new LogAnalyzer();
+        x.readFile("weblog2_log");
+        ArrayList<String> UniqueIPVisitsOnDay = x.uniqueIPVisitsOnDay("Sep 27");
+        System.out.println("Sep 27 " + UniqueIPVisitsOnDay);
+        System.out.println(UniqueIPVisitsOnDay.size());
+    }
+    
+    public void test6countUniqueIPsInRange() {
+       LogAnalyzer la = new LogAnalyzer();
+       la.readFile("weblog2_log");
+       int uniqueIPsInRange = la.countUniqueIPsInRange(400,499);
+       System.out.println("There are " + uniqueIPsInRange + " IPs in range");
+    }
+    
+    public void test7MostNumberVisitsByIP(){
+     LogAnalyzer la = new LogAnalyzer();
+       la.readFile("weblog2_log");
+       HashMap<String, Integer> qa = la.countVisitsPerIP(); 
+       int MostNumberVisitsByIP = la.mostNumberVisitsByIP(qa);
+       System.out.println("Most Number Visits By IP is " + MostNumberVisitsByIP);
+    }
+    
+    public void test8IPsMostVisits() {
+        LogAnalyzer xy = new LogAnalyzer();
+        xy.readFile("weblog2_log");
+        HashMap<String, Integer> qq = xy.countVisitsPerIP();
+        ArrayList<String> iPsMostVisits = xy.iPsMostVisits(qq);
+        int MostNumberVisitsByIP = xy.mostNumberVisitsByIP(qq);
+        System.out.println("IP addresses that all have the maximum number of visits to this website " + MostNumberVisitsByIP + " :");
+        System.out.println(iPsMostVisits);
+    }
+   
+    public void test9DayWithMostIPVisits(){
+       LogAnalyzer z = new LogAnalyzer();
+       z.readFile("weblog2_log");
+       HashMap<String, ArrayList<String>> m = z.iPsForDays();
+       String mostVisits = z.dayWithMostIPVisits(m);
+       System.out.println(m.size());
+       System.out.println("The day most visited " + mostVisits);
+    }
+    
+    public void test10IPsWithMostVisitsOnDay(){
+        LogAnalyzer xa = new LogAnalyzer();
+        xa.readFile("weblog2_log");
+        HashMap<String, ArrayList<String>> map2 = xa.iPsForDays();
+        ArrayList<String> IPsWithMostVisitsOnDay = xa.iPsWithMostVisitsOnDay(map2, "Sep 29");
+        System.out.println("Sep 29 " + IPsWithMostVisitsOnDay);
+        System.out.println(IPsWithMostVisitsOnDay.size());
+    }
+}
