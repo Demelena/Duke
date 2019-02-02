@@ -1,0 +1,81 @@
+import java.util.*;
+import edu.duke.*;
+
+public class VigenereBreaker {
+    CaesarCipher[] ciphers;
+    public String sliceString(String message,  int whichSlice, int totalSlices) {
+        StringBuilder answer = new StringBuilder();
+        int i = 0;
+        for (char c : message.toCharArray()) {
+            int index = i % totalSlices;
+            if (index == whichSlice)
+                answer.append(c);
+            i++;
+        }
+        return answer.toString();
+    }
+
+    public int[] tryKeyLength(String encrypted, int klength, char mostCommon) {
+        int[] key = new int[klength];
+        CaesarCracker cc = new CaesarCracker(mostCommon);
+        for (int i = 0; i < klength; i++) {
+             String s = sliceString(encrypted, i, klength);
+             int dkey = cc.getKey(s);
+             key[i] = dkey;
+        }
+        return key;
+    }
+     //Assignment: English Language, Unknown Key Length
+    public String breakVigenere () {
+        FileResource resource = new FileResource();
+        String s = resource.asString();
+        FileResource dictionary = new FileResource();
+        //int[] key = tryKeyLength(s, 4, 'e');
+        HashSet<String> set = readDictionary(dictionary);
+        return breakForLanguage(s,set);
+    }
+    
+    public HashSet<String> readDictionary (FileResource fr) {
+        HashSet<String> set = new HashSet<String>();
+        for (String word : fr.words()) {
+            String a = word.toLowerCase();
+            set.add(a);
+        }
+        return set;
+    } 
+    
+    public int countWords(String message, HashSet<String> dictionary) {
+        int countOfValidWords = 0;
+        String[] output = message.split("\\W+");
+        for (int i = 0; i < output.length; i++) {
+            if (dictionary.contains(output[i].toLowerCase()))
+                  countOfValidWords++;
+               }
+        return countOfValidWords;
+    }
+    
+    public String breakForLanguage(String encrypted, HashSet<String> dictionary){
+        String decryption = "";
+        String decryptionmax = "";
+        int[] found_key = new int[1];
+        int counts = 0;
+        char mostCommon = 'e';
+        for (int i = 1; i < 101; i++) {
+         int[] key = tryKeyLength(encrypted, i, mostCommon);
+         VigenereCipher vc = new VigenereCipher(key);
+         decryption = vc.decrypt(encrypted);
+         int words = countWords(decryption, dictionary);
+             if (counts < words){
+                 counts = words;
+                 decryptionmax = decryption;
+                 found_key = key;
+            }
+        }
+        System.out.println(counts);
+        System.out.println(found_key.length);
+        for (int i=0; i<found_key.length; i++)
+            System.out.println(found_key[i]); 
+        
+        return decryptionmax;
+    }
+}
