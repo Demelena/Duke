@@ -1,0 +1,142 @@
+/**
+ * Week 4 MiniProject: Vigenère Cipher
+ * Assignments: English Language, Known Key Length; English Language, Unknown Key Length
+ * Course: Java Programming: Arrays, Lists, and Structured Data
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+import edu.duke.*;
+public class Tester {
+    //Assignment: English Language, Known Key Length
+    
+    //You should test CaesarCipher code in a tester class
+    //that creates a CaesarCipher object and attempts 
+    //to encrypt and decrypt an entire message (such as titus-small.txt),
+    //as well as individual characters.
+    public void testEncryptCC(){
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        CaesarCipher cc = new CaesarCipher(5);
+        String encrypt = cc.encrypt(s);
+        System.out.println(encrypt);
+        System.out.println(s);
+        String decrypt = cc.decrypt(encrypt);
+        System.out.println(decrypt);
+        s = "a";
+        encrypt = cc.encrypt(s);
+        System.out.println(encrypt);
+        System.out.println(s);
+        decrypt = cc.decrypt(encrypt);
+        System.out.println(decrypt);   
+    }
+    
+    public void testDecryptCCEnglish(){
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        CaesarCracker cc = new CaesarCracker();
+        String decrypt = cc.decrypt(s);
+        System.out.println(decrypt);
+    }
+    
+    public void testDecryptCCPortuguese(){
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        CaesarCracker cc = new CaesarCracker('a');
+        String decrypt = cc.decrypt(s);
+        System.out.println(decrypt);
+    }
+      
+    public void testVigenereCipher(){
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        int[] key = new int []{17, 14, 12, 4};
+        VigenereCipher vc = new VigenereCipher(key);
+        String encrypt = vc.encrypt(s);
+        System.out.println(encrypt);
+        String decrypt = vc.decrypt(encrypt);
+        System.out.println(decrypt);
+    }
+    
+    public void testVigenereBreaker(){
+       
+        //Test the public method sliceString
+        VigenereBreaker vb = new VigenereBreaker();
+        String slice = vb.sliceString("abcdefghijklm",  0, 3);
+        System.out.println(slice);
+        slice = vb.sliceString("abcdefghijklm",  2, 4);
+        System.out.println(slice);
+
+        
+        //Test the public method tryKeyLength
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        int[] key = vb.tryKeyLength(s, 38, 'e');
+        for (int i=0; i<key.length; i++)
+            System.out.println(key[i]); 
+            
+        //Test the public method breakVigenere
+        VigenereBreaker b = new VigenereBreaker();
+        b.breakVigenere ();
+    }
+    
+    //Known Language and Key Length: Practice Quiz, 2 questions
+    public void Quiz1(){
+       FileResource resource = new FileResource();
+        String s = resource.asString();
+        VigenereBreaker b = new VigenereBreaker();
+        int[] key = b.tryKeyLength(s, 38, 'e');
+        for (int i=0; i<key.length; i++)
+            System.out.println(key[i]);  
+        b.breakVigenere ();
+    }
+    
+    //Assignment: English Language, Unknown Key Length
+    public void testReadDictionary(){
+       FileResource resource = new FileResource();
+        VigenereBreaker b = new VigenereBreaker();
+        for (String ss : b.readDictionary(resource)) {
+        System.out.println(ss);
+        } 
+    }
+    
+    // public void testCountWords(){
+       // FileResource resource = new FileResource();
+       // FileResource resources = new FileResource();
+        // String s = resource.asString();
+        // VigenereBreaker b = new VigenereBreaker();
+        // String decrypt = b.breakVigenere ();
+        // System.out.println(b.countWords(decrypt,b.readDictionary(resources)));  
+    // }
+    
+    // public void testBreakForLanguage(){
+       // FileResource resource = new FileResource();
+       // FileResource resources = new FileResource();
+        // String s = resource.asString();
+        // VigenereBreaker vb = new VigenereBreaker();
+        // String breakForLang = vb.breakForLanguage(s, vb.readDictionary(resources));
+        // System.out.println(breakForLang.substring(0,500));
+         // }
+         
+    //Test the public method breakVigenere
+    public void testBreakVigenere(){
+        VigenereBreaker b = new VigenereBreaker();
+        String decrypt = b.breakVigenere ();
+        System.out.println(decrypt.substring(0,500));
+    }
+    
+    //Unknown key length Practice Quiz, question #4
+    public void q4()
+    {
+        VigenereBreaker b = new VigenereBreaker();
+        FileResource resource = new FileResource();
+        FileResource resources = new FileResource();
+        String encrypted = resource.asString();        
+        int[] key = b.tryKeyLength(encrypted, 38, 'e');
+         VigenereCipher vc = new VigenereCipher(key);
+         String decryption = vc.decrypt(encrypted);
+         int words = b.countWords(decryption, b.readDictionary(resources));
+         System.out.println(words);
+    }
+}
