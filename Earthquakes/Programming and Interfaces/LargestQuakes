@@ -1,0 +1,49 @@
+/**
+ * Week 1 Earthquakes: Programming and Interfaces
+ * Assignment 5: Finding the Largest Magnitude Earthquakes
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+import java.util.*;
+
+public class LargestQuakes {
+      public void findLargestQuakes(){
+       EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "data/nov20quakedatasmall.atom";
+        String source = "data/nov20quakedata.atom";
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        System.out.println("read data for " + list.size()); 
+        System.out.println("index of largest " + indexOfLargest(list));
+        //System.out.println(list.get(indexOfLargest(list)));
+        
+        for (QuakeEntry s : getLargest(list, 5)) {
+          System.out.println(s);
+        }
+      }
+        
+      public int indexOfLargest(ArrayList<QuakeEntry> data){
+         double magMax = 0.0;
+         int index = 0;
+         for(QuakeEntry qe : data){
+           if (qe.getMagnitude() > magMax){
+               magMax = qe.getMagnitude();
+               index = data.indexOf(qe);
+            } 
+         }
+         return index;
+          }
+          
+      public ArrayList<QuakeEntry> getLargest(ArrayList <QuakeEntry> quakeData, int howMany){
+        ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
+        for(int i = 1; i <= howMany; i++){
+                int ind = indexOfLargest(quakeData);
+               answer.add(quakeData.get(ind));
+               quakeData.remove(ind);
+            }
+        return answer;
+         }
+  }
