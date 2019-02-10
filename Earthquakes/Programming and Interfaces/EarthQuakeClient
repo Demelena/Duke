@@ -1,0 +1,185 @@
+import java.util.*;
+import edu.duke.*;
+
+public class EarthQuakeClient {
+    public EarthQuakeClient() {
+        // TODO Auto-generated constructor stub
+    }
+    //Assignment 1: Filtering by Magnitude and Distance
+    public ArrayList<QuakeEntry> filterByMagnitude(ArrayList<QuakeEntry> quakeData,
+    double magMin) {
+        ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
+        for(QuakeEntry qe : quakeData){
+           if (qe.getMagnitude() > magMin){
+            answer.add(quakeData.get(quakeData.indexOf(qe)));
+            } 
+       }
+        return answer;
+     }
+
+    public ArrayList<QuakeEntry> filterByDistanceFrom(ArrayList<QuakeEntry> quakeData,
+    double distMax,
+    Location from) {
+        ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
+        for(QuakeEntry qe : quakeData){
+           if (qe.getLocation().distanceTo(from) < distMax){
+            //answer.add(quakeData.get(quakeData.indexOf(qe)));
+            answer.add(qe);
+            } 
+        }
+        return answer;
+    }
+
+    public void dumpCSV(ArrayList<QuakeEntry> list){
+        System.out.println("Latitude,Longitude,Magnitude,Info");
+        for(QuakeEntry qe : list){
+            System.out.printf("%4.2f,%4.2f,%4.2f,%s\n",
+                qe.getLocation().getLatitude(),
+                qe.getLocation().getLongitude(),
+                qe.getMagnitude(),
+                qe.getInfo());
+        }
+
+    }
+
+    public void bigQuakes() {
+        EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        String source = "data/nov20quakedatasmall.atom";
+        ArrayList<QuakeEntry> list = parser.read(source);
+        double magMin = 5.0;
+        ArrayList<QuakeEntry> q = filterByMagnitude(list,magMin);
+        System.out.println("read data for " + list.size());
+        for (QuakeEntry s : q) {
+            System.out.println(s);
+        }
+        System.out.println("Found " + q.size() + " quakes that match that criteria");
+
+    }
+
+    public void closeToMe(){
+        EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        String source = "data/nov20quakedatasmall.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        System.out.println("read data for "+list.size()+" quakes");
+        
+        double distMax = 1000000;
+
+        // This location is Durham, NC
+        //Location city = new Location(35.988, -78.907);
+
+        // This location is Bridgeport, CA
+        Location city =  new Location(38.17, -118.82);
+        
+        ArrayList<QuakeEntry> q = filterByDistanceFrom(list, distMax, city);
+        for (QuakeEntry s : q) {
+            System.out.println(s.getLocation().distanceTo(city) + s.getInfo());
+        }
+        System.out.println("Found " + q.size() + " quakes that match that criteria");
+        
+    }
+
+    public void createCSV(){
+        EarthQuakeParser parser = new EarthQuakeParser();
+        String source = "data/nov20quakedatasmall.atom";
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        dumpCSV(list);
+        System.out.println("# quakes read: " + list.size());
+        for (QuakeEntry qe : list) {
+            System.out.println(qe);
+        }
+    }
+    
+    //Assignment 2: Filtering by Depth
+        public ArrayList<QuakeEntry> filterByDepth(ArrayList<QuakeEntry> quakeData,
+    double minDepth, double maxDepth) {
+        ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
+        for(QuakeEntry qe : quakeData){
+           if (qe.getDepth() > minDepth && qe.getDepth() < maxDepth){
+            answer.add(qe);
+            } 
+       }
+        return answer;
+     }
+     
+    public void quakesOfDepth(){
+       EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        //String source = "data/nov20quakedatasmall.atom";
+        String source = "data/nov20quakedata.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        System.out.println("read data for "+list.size()+" quakes");
+        double minDepth = -8000.0;
+        double maxDepth = -5000.0;
+        ArrayList<QuakeEntry> q = filterByDepth(list, minDepth, maxDepth);
+        for (QuakeEntry s : q) {
+            System.out.println(s);
+        }
+        System.out.println("Found " + q.size() + " quakes that match that criteria");
+        
+        }
+     
+    //Assignment 3: Filtering by Phrase in Title
+    public ArrayList<QuakeEntry> filterByPhrase(ArrayList<QuakeEntry> quakeData, String where, String phrase){
+      ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>(); 
+      for(QuakeEntry qe : quakeData){
+ 
+                if (where.equals("start") && qe.getInfo().startsWith(phrase)) {
+                
+                     answer.add(qe);
+                }
+                
+                if (where.equals("end") && qe.getInfo().endsWith(phrase)) {
+                
+                     answer.add(qe);
+                }
+                
+                if (where.equals("any") && qe.getInfo().contains(phrase)) {
+                
+                     answer.add(qe);
+                }
+               
+      } 
+      return answer;
+    }
+    
+    public void quakesByPhrase(){
+        EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        //String source = "data/nov20quakedatasmall.atom";
+        String source = "data/nov20quakedata.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        System.out.println("read data for "+list.size()+" quakes");
+        String phrase1 = "California";
+        String phrase2 = "Creek";
+        String phrase3 = "Explosion";
+        String where1 = "end";
+        String where2 = "any";
+        String where3 = "start";
+        //Searching Earthquake Data Practice Quiz - 3d question
+        ArrayList<QuakeEntry> test1 = filterByPhrase(list, where1, phrase1);
+        for (QuakeEntry s : test1) {
+            System.out.println(s);
+        }
+        System.out.println("Found " + test1.size() + " quakes that match " + phrase1 + " at " + where1);
+        //Searching Earthquake Data Practice Quiz - 4 question
+        ArrayList<QuakeEntry> test2 = filterByPhrase(list, where2, phrase2);
+        for (QuakeEntry s : test2) {
+            System.out.println(s);
+        }
+        System.out.println("Found " + test2.size() + " quakes that match " + phrase2 + " at " + where2);
+        //Searching Earthquake Data Practice Quiz - 2nd question
+        ArrayList<QuakeEntry> test3 = filterByPhrase(list, where3, phrase3);
+        for (QuakeEntry s : test3) {
+            System.out.println(s);
+        }
+        System.out.println("Found " + test3.size() + " quakes that match " + phrase3 + " at " + where3);
+        
+        
+        
+       }
+    
+    
+}
