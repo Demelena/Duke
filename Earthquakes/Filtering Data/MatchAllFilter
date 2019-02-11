@@ -1,0 +1,49 @@
+/**
+ * Week 1 Earthquakes: Programming and Interfaces
+ * Filtering Data: Assignment 2: MatchAllFilter and Modification to the Interface 
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+
+import java.util.*;
+
+//Write the class MatchAllFilter that implements Filter. This class has a private 
+//ArrayList of Filters that is created in the constructor that has no parameters. 
+//This class has two methods, 1) a void method named addFilter with one Filter parameter 
+//that adds the Filter to its private ArrayList, and 2) a method named satisfies that 
+//has one QuakeEntry parameter and returns true if the QuakeEntry satisfies all the 
+//filter conditions, otherwise it returns false.
+
+public class MatchAllFilter implements Filter{
+    private ArrayList<Filter> list;
+    
+    public MatchAllFilter() { 
+        list = new ArrayList<Filter>();
+    } 
+    
+    public void addFilter(Filter f){
+        list.add(f);
+    }
+
+    public boolean satisfies(QuakeEntry qe) { 
+        for(Filter f : list) {
+            boolean r = f.satisfies(qe);
+            if (!r)
+                return false;
+        }
+        return true;
+    }
+    
+    public String getName(){
+        StringBuilder sb = new StringBuilder();
+        
+        for(Filter f : list) {
+            sb.append(f.getName()+";");
+        }
+        
+        return sb.toString();
+    }
+}
