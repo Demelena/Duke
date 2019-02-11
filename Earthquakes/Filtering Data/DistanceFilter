@@ -1,0 +1,33 @@
+/**
+ * Week 1 Earthquakes: Programming and Interfaces
+ * Filtering Data: Assignment 1: Implementing Filters
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+
+//Write the class DistanceFilter that implements Filter. This class should include 
+//private instance variables for a location and a maximum distance, a constructor 
+//to initialize those variables, and a satisfies method that returns true if 
+//a QuakeEntry’s distance from the given location is less than the specified 
+//maximum distance. Otherwise it should return false.
+
+public class DistanceFilter implements Filter {
+    private Location givenLocation;
+    private double maxDistance; 
+    
+    public DistanceFilter(Location loc, double distance) { 
+        givenLocation = loc;
+        maxDistance = distance;
+    } 
+
+    public boolean satisfies(QuakeEntry qe) { 
+        return (qe.getLocation().distanceTo(givenLocation) < maxDistance); 
+    } 
+    
+    public String getName(){
+        return "DistanceFilter";
+    }
+}
