@@ -1,0 +1,29 @@
+/**
+ * Week 1 Earthquakes: Programming and Interfaces
+ * Filtering Data: Assignment 1: Implementing Filters
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ * @author Elena Garmash 
+ * @version 1.0
+ */
+
+public class PhraseFilter implements Filter{
+    private String typeOfRequest;
+    private String phraseToSearch; 
+    
+    public PhraseFilter(String type, String phrase) { 
+        typeOfRequest = type;
+        phraseToSearch = phrase;
+    } 
+
+    public boolean satisfies(QuakeEntry qe) { 
+        return ((typeOfRequest.equals("start") && qe.getInfo().startsWith(phraseToSearch))
+                || (typeOfRequest.equals("end") && qe.getInfo().endsWith(phraseToSearch)) 
+                || (typeOfRequest.equals("any") && qe.getInfo().contains(phraseToSearch)));
+    } 
+    
+    public String getName(){
+        return "PhraseFilter";
+    }
+}
