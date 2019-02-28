@@ -1,0 +1,19 @@
+/**
+ * Week 2: Sorting at Scale: Assignment 2: Title Comparator
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ */
+
+import java.util.*;
+
+public class TitleAndDepthComparator implements Comparator<QuakeEntry> {
+    public int compare(QuakeEntry qe1, QuakeEntry qe2) {
+        int compTitle = qe1.getInfo().compareTo(qe2.getInfo());
+        if (compTitle == 0){
+            return Double.compare(qe1.getDepth(), qe2.getDepth());
+        }
+        return compTitle;
+    }
+
+}
