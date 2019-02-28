@@ -1,0 +1,188 @@
+import java.util.*;
+import edu.duke.*;
+
+public class QuakeSortInPlace {
+    public QuakeSortInPlace() {
+        // TODO Auto-generated constructor stub
+    }
+   
+    public int getSmallestMagnitude(ArrayList<QuakeEntry> quakes, int from) {
+        int minIdx = from;
+        for (int i=from+1; i< quakes.size(); i++) {
+            if (quakes.get(i).getMagnitude() < quakes.get(minIdx).getMagnitude()) {
+                minIdx = i;
+            }
+        }
+        return minIdx;
+    }
+    
+    //Assignment 1: Sort by Depth.1
+    public int getLargestDepth(ArrayList<QuakeEntry> quakes, int from) {
+        int maxIdx = from;
+        for (int i=from+1; i< quakes.size(); i++) {
+            if (quakes.get(i).getDepth() > quakes.get(maxIdx).getDepth()) {
+                maxIdx = i;
+            }
+        }
+        return maxIdx;
+    }
+    //Assignment 1: Sort by Depth.2
+    public void sortByLargestDepth(ArrayList<QuakeEntry> in) {
+       
+       //for (int i=0; i< in.size(); i++) {
+           for (int i=0; i< 50; i++) {
+            int maxIdx = getLargestDepth(in,i);
+            QuakeEntry qi = in.get(i);
+            QuakeEntry qmax = in.get(maxIdx);
+            in.set(i,qmax);
+            in.set(maxIdx,qi);
+        }
+        
+    }
+    
+    public void sortByMagnitude(ArrayList<QuakeEntry> in) {
+       
+       for (int i=0; i< in.size(); i++) {
+            int minIdx = getSmallestMagnitude(in,i);
+            QuakeEntry qi = in.get(i);
+            QuakeEntry qmin = in.get(minIdx);
+            in.set(i,qmin);
+            in.set(minIdx,qi);
+        }
+        
+    }
+    
+     //Assignment 1: Sort by Depth.3
+     //Assignment 2: Bubble Sort.3
+     //Assignment 3: Check for Completion.3
+     //Assignment 3: Check for Completion.5
+     //Implementing Selection Sort: Practice Quiz, 5 questions
+
+    public void testSort() {
+        EarthQuakeParser parser = new EarthQuakeParser(); 
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        //String source = "data/nov20quakedatasmall.atom";
+        //String source = "data/earthquakeDataSampleSix2.atom";
+        //String source = "data/earthQuakeDataDec6sample2.atom";
+        //String source = "data/earthQuakeDataDec6sample1.atom";
+        //String source = "data/earthQuakeDataWeekDec6sample2.atom";
+        String source = "data/earthQuakeDataDec6sample2.atom";
+        //String source = "data/nov20quakedata.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);  
+       
+        System.out.println("read data for "+list.size()+" quakes");    
+        //sortByMagnitude(list);
+        sortByLargestDepth(list);
+        //sortByMagnitudeWithBubbleSort(list);
+        //sortByMagnitudeWithBubbleSortWithCheck(list);
+        //sortByMagnitudeWithCheck(list);
+        for (QuakeEntry qe: list) { 
+            System.out.println(qe);
+        } 
+    }
+    
+    //Assignment 2: Bubble Sort.1
+    public void onePassBubbleSort(ArrayList<QuakeEntry> quakeData, int numSorted) {
+        for (int n=1; n < quakeData.size()-numSorted; n++) {
+           QuakeEntry q = quakeData.get(n);
+           QuakeEntry q2 = quakeData.get(n-1);
+           double m = q.getMagnitude(); 
+           double m2 = q2.getMagnitude();
+           if (m2 > m) {
+               quakeData.set(n, q2);
+               quakeData.set(n-1, q);
+           }
+        }
+    }
+    
+    //Assignment 2: Bubble Sort.2
+    //Assignment 2: Bubble Sort.4
+    public void sortByMagnitudeWithBubbleSort(ArrayList<QuakeEntry> quakeData) {
+             for (QuakeEntry qe: quakeData) { 
+                   System.out.print(qe.getMagnitude()+" ");
+             }
+             System.out.println();
+    
+        for (int n=0; n < quakeData.size(); n++) {
+            onePassBubbleSort(quakeData, n);
+            //System.out.println("Printing Quakes after pass "+n);
+             for (QuakeEntry qe: quakeData) { 
+                   System.out.print(qe.getMagnitude()+" ");
+             }
+             System.out.println();
+          }
+          
+       }
+    
+    //Assignment 3: Check for Completion.1    
+    public boolean checkInSortedOrder(ArrayList<QuakeEntry> quakes){
+        for (int n=1; n < quakes.size(); n++) {
+           QuakeEntry q = quakes.get(n);
+           QuakeEntry q2 = quakes.get(n-1);
+           double m = q.getMagnitude(); 
+           double m2 = q2.getMagnitude();
+           if (m2 > m)
+                 return false;    
+        }
+        return true;
+    }
+        
+    //Assignment 3: Check for Completion.2
+    public void sortByMagnitudeWithBubbleSortWithCheck(ArrayList<QuakeEntry> in){
+       
+      if (checkInSortedOrder(in) == true) {
+        System.out.println("# passes were needed to sort the elements: 0");
+        return;
+      }       
+        
+      for (int n=0; n < in.size(); n++) {
+         onePassBubbleSort(in, n);
+         if (checkInSortedOrder(in) == true) {
+            System.out.println("# passes were needed to sort the elements: " + (n+1));
+            return;
+         }
+        }   
+    }
+    
+    //Assignment 3: Check for Completion.4
+    public void sortByMagnitudeWithCheck(ArrayList<QuakeEntry> in){  
+      int passes = 0;
+      
+      while (checkInSortedOrder(in) == false) {
+          
+        int i = passes;
+        int minIdx = getSmallestMagnitude(in,i);
+        QuakeEntry qi = in.get(i);
+        QuakeEntry qmin = in.get(minIdx);
+        in.set(i,qmin);
+        in.set(minIdx,qi);
+          
+        passes += 1;
+      }
+       
+       System.out.println("# passes were needed to sort the elements: " + (passes) + " one pass has exactly one swap.");
+    }
+
+    
+    public void createCSV() {
+        EarthQuakeParser parser = new EarthQuakeParser();
+        //String source = "data/nov20quakedata.atom";
+        String source = "data/nov20quakedatasmall.atom";
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        dumpCSV(list);
+        System.out.println("# quakes read: " + list.size());
+    }
+    
+    public void dumpCSV(ArrayList<QuakeEntry> list) {
+        System.out.println("Latitude,Longitude,Magnitude,Info");
+        for(QuakeEntry qe : list){
+            System.out.printf("%4.2f,%4.2f,%4.2f,%s\n",
+                              qe.getLocation().getLatitude(),
+                              qe.getLocation().getLongitude(),
+                              qe.getMagnitude(),
+                              qe.getInfo());
+        }
+        
+    }
+}
