@@ -1,0 +1,22 @@
+/**
+ * Week 2: Sorting at Scale: Assignment 3: Last Word in Title Comparator
+ * Course: Java Programming: Principles of Software Design
+ * Specialization: Java Programming and Software Engineering Fundamentals Specialization
+ * Duke University
+ */
+import java.util.*;
+
+public class TitleLastAndMagnitudeComparator implements Comparator<QuakeEntry> {
+    public int compare(QuakeEntry qe1, QuakeEntry qe2) {
+        String title1 = qe1.getInfo();
+        String title2 = qe2.getInfo(); 
+        String lastw1 = title1.substring(title1.lastIndexOf(" ")+1);
+        String lastw2 = title2.substring(title2.lastIndexOf(" ")+1);
+        int compTitle = lastw1.compareTo(lastw2);
+        if (compTitle == 0){
+            return Double.compare(qe1.getMagnitude(), qe2.getMagnitude());
+        }
+        return compTitle;
+    }
+
+}
